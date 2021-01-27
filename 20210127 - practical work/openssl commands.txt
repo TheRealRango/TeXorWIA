@@ -1,0 +1,30 @@
+*** Dokument symetrisch Verschlüsseln ****
+ 
+
+** Verschlüsseln **
+
+openssl enc -e -aes256 -in MeinText.txt -out MeinText.enc
+ 
+** Entschlüsseln ** 
+ 
+openssl enc -d -aes256 -in MeinText.enc -out MeinText.txt
+ 
+ 
+
+**** Dokument asymetrisch Verschlüsseln ****
+ 
+** privaten Schlüssel erzeugen **
+ 
+openssl genrsa -out private.pem 2048
+ 
+** öffentlichen Schlüssel erzeugen **
+ 
+openssl rsa -in private.pem -pubout > public.pem
+ 
+** Dokument mit öffentlichen Schlüssel des Empfängers verschlüsseln (Der Empfänger muss vorher seinen den öffentlichen Schlüssel dem Sender schicken)
+ 
+openssl rsautl -encrypt -inkey FritzchenMuellerPublic.pem -pubin -in geheim.txt -out geheim.enc
+ 
+** Dokument mit privatem Schlüssel entschlüsseln **
+ 
+openssl rsautl -decrypt -inkey private.pem -in geheim.enc -out geheim.txt
